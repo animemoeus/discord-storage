@@ -11,11 +11,6 @@ async def root():
     return {"message": "Hello World"}
 
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
-
-
 class UploadFromURLPayload(BaseModel):
     file_url: AnyUrl
     file_name: str
@@ -24,7 +19,7 @@ class UploadFromURLPayload(BaseModel):
 @app.post("/upload-from-url/")
 async def upload_from_url(payload: UploadFromURLPayload):
     file_url = str(payload.file_url)
-    file_name = str(payload.file_name)
+    file_name = payload.file_name
 
     raw_file = get_file_from_url(file_url)
     discord_response = upload_file_to_discord_server(raw_file, file_name)
